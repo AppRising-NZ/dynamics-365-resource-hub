@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Microsoft Sales AI Agents - AppRising</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body { width: 100%; min-height: 100vh; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #ffffff;
+      color: #111827;
+      padding: 28px 32px 24px;
+    }
+
+    /* ─── Page header ─── */
+    .page-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .page-header-left h1 {
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: #111827;
+    }
+    .page-header-left p {
+      font-size: 13px;
+      color: #4B5563;  /* WCAG AA: ~7.4:1 on white */
+      margin-top: 3px;
+    }
+
+    /* ─── Header video link ─── */
+    .header-video-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      margin-top: 6px;
+      font-size: 12px;
+      font-weight: 500;
+      color: #2563EB;
+      text-decoration: none;
+    }
+    .header-video-link:hover { text-decoration: underline; }
+    .header-video-link .iconify { font-size: 14px; flex-shrink: 0; }
+
+    /* ─── Brand lockup ─── */
+    .page-header-brand {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      flex-shrink: 0;
+    }
+    .brand-logo {
+      width: 36px;
+      height: 36px;
+      display: block;
+    }
+    .brand-wordmark {
+      font-size: 17px;
+      font-weight: 700;
+      color: #2FA6A4;
+      letter-spacing: -0.01em;
+    }
+
+    /* ─── Outer 3-zone grid ─── */
+    .outer-grid {
+      display: grid;
+      grid-template-columns: minmax(200px, 17%) 1fr minmax(210px, 18%);
+      gap: 14px;
+      align-items: start;
+      width: 100%;
+    }
+
+    /* ─── Platform zone shell ─── */
+    .platform-zone {
+      background: #ffffff;
+      border-radius: 14px;
+      border: 1.5px solid #D1D5DB;
+      overflow: hidden;
+    }
+    .platform-zone-header {
+      padding: 12px 16px 11px;
+      border-bottom: 1.5px solid #D1D5DB;
+      display: flex;
+      align-items: center;
+      gap: 11px;
+    }
+    .platform-icon-wrap {
+      width: 36px; height: 36px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .platform-icon-wrap img { width: 36px; height: 36px; display: block; }
+    .platform-zone-header .ptitle {
+      font-size: 18px;
+      font-weight: 700;
+      color: #111827;
+      line-height: 1.2;
+    }
+    .platform-zone-header .psub {
+      font-size: 12px;
+      color: #4B5563;  /* WCAG AA */
+      margin-top: 2px;
+      line-height: 1.4;
+    }
+
+    /* Zone accent headers */
+    .zone-agent365 .platform-zone-header { background: #F5F3FF; border-bottom-color: #C4B5FD; }
+    .zone-agent365 .platform-zone { border-color: #C4B5FD; }
+
+    .zone-d365 .platform-zone-header { background: #EFF6FF; border-bottom-color: #BFDBFE; }
+    .zone-d365 .platform-zone { border-color: #BFDBFE; }
+
+    .zone-m365 .platform-zone-header { background: #F0F9FF; border-bottom-color: #BAE6FD; }
+    .zone-m365 .platform-zone { border-color: #BAE6FD; }
+
+    /* ─── D365 inner layoutsubgrid for horizontal section alignment ─── */
+    .d365-inner { padding: 12px; }
+
+    .d365-top-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-rows: auto auto auto auto;
+      column-gap: 10px;
+      row-gap: 0;
+      margin-bottom: 10px;
+    }
+    .d365-top-row .card {
+      grid-row: 1 / 5;
+      display: grid;
+      grid-template-rows: subgrid;
+    }
+
+    .d365-bottom-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto auto auto auto;
+      column-gap: 10px;
+      row-gap: 0;
+    }
+    .d365-bottom-row .card {
+      grid-row: 1 / 5;
+      display: grid;
+      grid-template-rows: subgrid;
+    }
+
+    /* ─── Side zone ─── */
+    .side-inner {
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    /* ─── Agent card ─── */
+    .card {
+      background: #F9FAFB;
+      border: 1px solid #D1D5DB;
+      border-radius: 10px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: box-shadow 0.15s, border-color 0.15s;
+    }
+    .card:hover {
+      box-shadow: 0 2px 12px rgba(0,0,0,0.10);
+      border-color: #9CA3AF;
+    }
+    .card-top {
+      background: #ffffff;
+      padding: 11px 13px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+    .card-name-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .card-name {
+      font-size: 14px;
+      font-weight: 700;
+      color: #111827;
+      line-height: 1.25;
+    }
+
+    /* Status pills - WCAG AA verified */
+    .status-pill {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 20px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .s-ga       { background: #D1FAE5; color: #065F46; }  /* 5.9:1 */
+    .s-preview  { background: #FEF3C7; color: #78350F; }  /* 5.9:1 */
+    .s-frontier { background: #EDE9FE; color: #4C1D95; }  /* 7.1:1 */
+
+    /* Role tags — icon prefix, no border */
+    .card-meta { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+    .role-tag {
+      font-size: 11px;
+      font-weight: 600;
+      color: #374151;
+      background: transparent;
+      border: none;
+      border-radius: 0;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+    .role-tag .iconify { font-size: 13px; color: #6B7280; flex-shrink: 0; }
+
+    /* ─── Capability pills ─── */
+    .cap-pills {
+      padding: 8px 13px 10px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      border-top: 1px solid #E5E7EB;
+      background: #F9FAFB;
+    }
+    .cap-pill {
+      font-size: 11px;
+      font-weight: 500;
+      color: #1F2937;   /* WCAG AA: ~14:1 on #E5E7EB */
+      background: #E5E7EB;
+      border-radius: 20px;
+      padding: 2px 9px;
+      white-space: nowrap;
+    }
+
+    /* ─── Card links section ─── */
+    .card-links {
+      padding: 7px 13px 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      border-top: 1px solid #E5E7EB;
+      background: #F9FAFB;
+    }
+    .card-link {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      font-weight: 500;
+      color: #2563EB;
+      text-decoration: none;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .card-link:hover { color: #1D4ED8; text-decoration: underline; }
+    .card-link .iconify { flex-shrink: 0; font-size: 13px; color: #2563EB; }
+
+    /* ─── "Use when" click hint ─── */
+    .use-when-hint {
+      padding: 7px 13px 9px;
+      border-top: 1px solid #E5E7EB;
+      font-size: 12px;
+      font-weight: 500;
+      color: #2563EB;   /* WCAG AA: ~4.6:1 on white */
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      cursor: pointer;
+    }
+    .use-when-hint .iconify { font-size: 14px; flex-shrink: 0; }
+
+    /* ─── Footer ─── */
+    .footer {
+      text-align: center;
+      margin-top: 18px;
+      font-size: 11px;
+      color: #6B7280;  /* WCAG AA: ~4.6:1 on white */
+    }
+
+    /* ═══════════════════════════════════════════
+       SIDE PANEL
+    ════════════════════════════════════════════ */
+    .panel-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(17,24,39,0.35);
+      z-index: 100;
+    }
+    .panel-backdrop.open { display: block; }
+
+    .side-panel {
+      position: fixed;
+      top: 0; right: 0; bottom: 0;
+      width: 460px;
+      max-width: 90vw;
+      background: #ffffff;
+      border-left: 1px solid #D1D5DB;
+      box-shadow: -4px 0 24px rgba(0,0,0,0.12);
+      z-index: 101;
+      display: flex;
+      flex-direction: column;
+      transform: translateX(100%);
+      transition: transform 0.22s cubic-bezier(0.4,0,0.2,1);
+    }
+    .side-panel.open { transform: translateX(0); }
+
+    .panel-header {
+      padding: 20px 20px 16px;
+      border-bottom: 1px solid #E5E7EB;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+    .panel-header-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .panel-agent-name {
+      font-size: 17px;
+      font-weight: 700;
+      color: #111827;
+      line-height: 1.3;
+    }
+    .panel-close {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #6B7280;
+      font-size: 20px;
+      line-height: 1;
+      padding: 2px 4px;
+      border-radius: 4px;
+      flex-shrink: 0;
+    }
+    .panel-close:hover { background: #F3F4F6; color: #111827; }
+
+    .panel-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+
+    .panel-body {
+      padding: 20px;
+      overflow-y: auto;
+      flex: 1;
+    }
+    .panel-section-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: #6B7280;
+      margin-bottom: 8px;
+      letter-spacing: 0.01em;
+    }
+    .panel-use-when-text {
+      font-size: 14px;
+      line-height: 1.7;
+      color: #1F2937;   /* WCAG AA: ~14:1 on white */
+      margin-bottom: 24px;
+    }
+    .panel-image-wrap { margin-bottom: 32px; }
+    .panel-image-link:hover .panel-image { border-color: #2FA6A4; }
+    .panel-image {
+      width: 100%;
+      border-radius: 8px;
+      border: 1px solid #E5E7EB;
+      display: block;
+      cursor: zoom-in;
+      transition: border-color 0.15s;
+    }
+    .panel-image-caption {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      color: #2FA6A4;
+      margin-top: 4px;
+    }
+    .panel-image-caption a { color: #2FA6A4; text-decoration: none; }
+    .panel-image-caption a:hover { text-decoration: underline; }
+    .panel-caps-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: #6B7280;
+      margin-bottom: 8px;
+    }
+    .panel-cap-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .panel-cap-pill {
+      font-size: 12px;
+      font-weight: 500;
+      color: #1F2937;
+      background: #E5E7EB;
+      border-radius: 20px;
+      padding: 4px 12px;
+    }
+    /* Panel role tagsmatch card outline style */
+    .panel-meta .role-tag {
+      font-size: 12px;
+      padding: 3px 10px;
+    }
+    /* Overlaps section */
+    .panel-overlaps {
+      margin-top: 24px;
+    }
+    .panel-overlap-item {
+      border: 1px solid #E5E7EB;
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 10px;
+    }
+    .panel-overlap-name {
+      font-size: 12px;
+      font-weight: 700;
+      color: #111827;
+      background: #F9FAFB;
+      padding: 8px 12px;
+      border-bottom: 1px solid #E5E7EB;
+    }
+    .panel-overlap-text {
+      font-size: 13px;
+      line-height: 1.6;
+      color: #1F2937;
+      padding: 10px 12px;
+    }
+    /* Links section */
+    .panel-links {
+      margin-top: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .panel-link {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      color: #2563EB;
+      text-decoration: none;
+      padding: 8px 12px;
+      border: 1px solid #BFDBFE;
+      border-radius: 8px;
+      background: #EFF6FF;
+    }
+    .panel-link:hover {
+      background: #DBEAFE;
+      border-color: #93C5FD;
+    }
+    .panel-link-icon { font-size: 15px; flex-shrink: 0; }
+    .panel-link-label { flex: 1; }
+    .panel-link-type {
+      font-size: 10px;
+      font-weight: 600;
+      color: #1D4ED8;
+      background: #DBEAFE;
+      border-radius: 20px;
+      padding: 1px 7px;
+      white-space: nowrap;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Page header -->
+  <div class="page-header">
+    <div class="page-header-left">
+      <h1>Microsoft Sales AI Agents</h1>
+      <p>Explore agents by platform and role. Click any card for details, comparisons, and resources</p>
+      <a class="header-video-link" href="https://youtu.be/xHTLX_-Hf8E" target="_blank" rel="noopener"><span class="iconify" data-icon="fluent:play-circle-24-filled"></span>2026 Release Wave 1 overview (YouTube)</a>
+    </div>
+    <div class="page-header-brand">
+      <img src="https://static.wixstatic.com/media/3f6a54_2ee00fa9d9ca4a73a82f7b00067a5da2~mv2.png" alt="AppRising logo" class="brand-logo" />
+      <span class="brand-wordmark">AppRising</span>
+    </div>
+  </div>
+
+  <!-- Outer 3-zone grid -->
+  <div class="outer-grid">
+
+    <!-- ═══════════════════════════════════════════
+         ZONE 1Microsoft Agent 365
+    ════════════════════════════════════════════ -->
+    <div class="platform-zone zone-agent365">
+      <div class="platform-zone-header">
+        <div class="platform-icon-wrap">
+          <img src="../assets/Agent365_scalable.svg" alt="Microsoft Agent 365" />
+        </div>
+        <div>
+          <div class="ptitle">Microsoft Agent 365</div>
+          <div class="psub">Lives in Microsoft Teams</div>
+        </div>
+      </div>
+      <div class="side-inner">
+
+        <div class="card"
+          data-name="Sales Development Agent"
+          data-status="s-frontier" data-status-label="Frontier Program"
+          data-roles="Sales Development Rep|Sales Leader"
+          data-use-when="You want to scale outbound prospecting without scaling headcount. The agent autonomously contacts a prospect list, follows up, handles replies, qualifies interest against your rules, and hands warm leads to a seller, all via email, managed from Teams."
+          data-caps="Outbound emails|Prospect sequencing|Reply handling|Lead qualification|Seller handoff|CRM sync"
+          data-overlaps="Sales Qualification Agent::Both qualify leads and send outreach emails but this agent works from an outbound prospect list you provide (CSV or Teams), while the Sales Qualification Agent handles inbound CRM leads. This agent runs the entire email sequence autonomously; the Sales Qualification Agent can also operate in a seller-review mode.|Lead Research &amp; Outreach::Both research leads and generate personalised outreach emails. The difference is autonomythis agent independently runs the full outbound sequence without seller input, while Lead Research &amp; Outreach is a briefing tool that surfaces insights and drafts for the seller to review and send."
+          data-links="Sales Development Agent documentation::https://learn.microsoft.com/en-us/microsoft-agent-365/use#use-the-sales-development-agent::Docs|Microsoft Agent 365 overview::https://learn.microsoft.com/en-us/microsoft-agent-365/overview::Docs">
+          <div class="card-top">
+            <div class="card-name-row">
+              <div class="card-name">Sales Development Agent</div>
+              <span class="status-pill s-frontier">Frontier Program</span>
+            </div>
+            <div class="card-meta">
+              <span class="role-tag"><span class="iconify" data-icon="fluent:person-24-filled"></span>Sales Development Rep</span>
+              <span class="role-tag"><span class="iconify" data-icon="fluent:person-24-filled"></span>Sales Leader</span>
+            </div>
+          </div>
+          <div class="cap-pills">
+            <span class="cap-pill">Outbound emails</span>
+            <span class="cap-pill">Prospect sequencing</span>
+            <span class="cap-pill">Reply handling</span>
+            <span class="cap-pill">Lead qualification</span>
+            <span class="cap-pill">Seller handoff</span>
+          </div>
+          <div class="card-links">
+            <a class="card-link" href="https://learn.microsoft.com/en-us/microsoft-agent-365/use?WT.mc_id=DX-MVP-5003800#use-the-sales-development-agent" target="_blank" rel="noopener" onclick="event.stopPropagation()"><span class="iconify" data-icon="fluent:document-24-filled"></span>Sales Development Agent documentation</a>
+            <a class="card-link" href="https://learn.microsoft.com/en-us/microsoft-agent-365/overview?WT.mc_id=DX-MVP-5003800" target="_blank" rel="noopener" onclick="event.stopPropagation()"><span class="iconify" data-icon="fluent:document-24-filled"></span>Microsoft Agent 365 overview</a>
+            <a class="card-link" href="https://youtu.be/KHBoVzC8VmQ" target="_blank" rel="noopener" onclick="event.stopPropagation()"><span class="iconify" data-icon="fluent:play-circle-24-filled"></span>Sales Development Agent demo (YouTube)</a>
+          </div>
+          <div class="use-when-hint"><span class="iconify" data-icon="fluent:info-24-filled"></span>More details ...</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════
+         ZONE 2Dynamics 365 Sales
+    ════════════════════════════════════════════ -->
+    <div class="platform-zone zone-d365">
+      <div class="platform-zone-header">
+        <div class="platform-icon-wrap">
+          <img src="../assets/Sales_scalable.svg" alt="Dynamics 365 Sales" />
+        </div>
+        <div>
+          <div class="ptitle">Dynamics 365 Sales</div>
+          <div class="psub">Lives inside your CRMworks on lead and opportunity records</div>
+        </div>
+      </div>
+      <div class="d365-inner">
+
+        <!-- Top row: 3 process-stage agents -->
+        <div class="d365-top-row">
+
+          <div class="card card-qualify"
+            data-name="Sales Qualification Agent"
+            data-status="s-ga" data-status-label="Generally Available"
+            data-roles="Sales Development Rep|Sales Rep"
+            data-use-when="You have more inbound leads than sellers can handle. The agent researches each lead, scores them against your ideal customer profile, and either drafts outreach emails for seller review (Research-only mode) or sends and follows up autonomously until a lead qualifies or is disqualified (Research &amp; Engage mode)."
+            data-caps="Lead research|Profile scoring|Outreach drafting|Auto-engagement|BANT evaluation|Seller handoff"
+            data-links="Sales Qualification Agent documentation::https://learn.microsoft.com/en-us/dynamics365/sales/sales-qualification-agent::Docs|Configure Sales Qualification Agent::https://learn.microsoft.com/en-us/dynamics365/sales/configure-sales-qualification-agent::Docs"
+            data-overlaps="Sales Development Agent::Both qualify leads and send outreach emailsbut this agent works on inbound CRM leads and can optionally leave the seller in control (Research-only mode). The Sales Development Agent is focused on outbound prospecting from a list you supply.|Lead Research &amp; Outreach::Both research CRM leads and draft outreach emails. This agent works at scale autonomously across batches of leads; Lead Research &amp; Outreach is seller-initiated, surfacing a briefing for one lead at a time inside M365 Copilot.">
+            <div class="card-top">
+              <div class="card-name-row">
+                <div class="card-name">Sales Qualification Agent</div>
+                <span class="status-pill s-ga">Generally Available</span>
+              </div>
+              <div class="card-meta">
+                <span class="role-tag"><span class="iconify" data-icon="fluent:person-24-filled"></span>Sales Development Rep</span>
+                <span class="role-tag"><span class="iconify" data-icon="fluent:person-24-filled"></span>Sales Rep</span>
+              </div>
+            </div>
+            <div class="cap-pills">
+              <span class="cap-pill">Lead research</span>
+              <span class="cap-pill">Profile scoring</span>
+              <span class="cap-pill">Outreach drafting</span>
+              <span class="cap-pill">Auto-engagement</span>
+              <span class="cap-pill">BANT evaluation</span>
+            </div>
+            <div class="card-links">
+              <a class="card-link" href="https://learn.microsoft.com/en-us/dynamics365/sales/sales-qualification-agent?WT.mc_id=DX-MVP-5003800" target="_blank" rel="noopener" onclick="event.stopPropagation()"><span class="iconify" data-icon="fluent:document-24-filled"></span>Sales Qualification Agent overview</a>
+              <a class="card-link" href="https://learn.microsoft.com/en-us/dynamics365/sales/use-sales-qualification-agent?WT.mc_id=DX-MVP-5003800" target="_blank" rel="noopener" onclick="event.stopPropagation()"><span class="iconify" data-icon="fluent:document-24-filled"></span>Work on leads as a seller</a>
+            </div>
+            <div class="use-when-hint"><span class="iconify" data-icon="fluent:info-24-filled"></span>More details ...</div>
+          </div>
+
+          <div class="card card-oppty"
+            data-name="Sales Opportunity Agent"
+            data-status="s-preview" data-status-label="Preview"
+            data-roles="Sales Rep|Sales Leader"
+            data-use-when="You need sellers to walk into every deal review fully prepared. The agent synthesises CRM data, emails, and meeting notes into a single deal view, flagging risks, disengaged stakeholders, and competitor mentions so sellers know exactly where to focus."
+            data-caps="Deal briefing|Risk detection|Stakeholder mapping|Competitor intel|Meeting synthesis|Priority signals"
+            data-links="Sales Opportunity Agent documentation::https://learn.microsoft.com/en-us/dynamics365/sales/sales-opportunity-agent::Docs|Configure Sales Opportunity Agent::https://learn.microsoft.com/en-us/dynamics365/sales/configure-opportunity-research-agent::Docs"
+            data-overlaps="Sales Close Agent::Both work on active opportunities. This agent surfaces insights and flags risks for the seller to act onit doesn't contact customers. The Sales Close Agent acts autonomously, engaging customers directly to move the deal forward.|Sales Agent (M365 Copilot)::Both can answer questions about deals and accounts. This agent delivers deep automated analysis embedded in the CRM opportunity record; the Sales Agent is a conversational query tool across CRM and M365 data (emails, calendar, Teams).">
+            <div class="card-top">
+              <div class="card-name-row">
+                <div class="card-name">Sales Opportunity Agent</div>
+                <span class="status-pill s-preview">Preview</span>
+              </div>
+              <div class="card-meta">
+                <span class="role-tag"><span class="iconify" data-icon="fluent:person-24-filled"></span>Sales Rep</span>
+                <span class="role-tag"><span class="iconify" data-icon="fluent:person-24-filled"></span>Sales Leader</span>
+              </div>
+            </div>
+            <div class="cap-pills">
+              <span class="cap-pill">Deal briefing</span>
+              <span class="cap-pill">Risk detection</span>
+              <span class="cap-pill">Stakeholder mapping</span>
+              <span class="cap-pill">Competitor intel</span>
+              <span class="cap-pill">Meeting synthesis</span>
+            </div>
+            <div class="card-links">
+              <a class="card-link" href="https://learn.microsoft.com/en-us/dynamics365/sales/sales-opportunity-agent?WT.mc_id=DX-MVP-5003800" target="_blank" rel="noopener" onclick="event.stopPropagation()"><span class="iconify" data-icon="fluent:document-24-filled"></span>Sales Opportunity Agent overview</a>
+              <a class="card-link" href="https://learn.microsoft.com/en-us/dynamics365/sales/use-opportunity-research-agent?WT.mc_id=DX-MVP-5003800" target="_blank" rel="noopener" onclick="event.stopPropagation()"><span class="iconify" data-icon="fluent:document-24-filled"></span>Work on opportunities as a seller</a>
+            </div>
+            <div class="use-when-hint"><span class="iconify" data-icon="fluent:info-24-filled"></span>More details ...</div>
+          </div>
+
+          <div class="card card-close"
+            data-name="Sales Close Agent"
+            data-status="s-preview" data-status-label="Preview"
+            data-roles="Sales Rep"
+            data-use-when="You want AI to actively move deals forward, not just surface insights. The agent autonomously engages customers, recommends products, handles objections, and drives follow-ups throughout the cycle, handing back to the seller at key decision points."
+            data-caps="Customer engagement|Product recommendations|Objection handling|Autonomous follow-up|Deal progression|Seller handoff"
+            data-links="Sales Close Agent documentation::https://learn.microsoft.com/en-us/dynamics365/sales/sales-close-agent::Docs|Configure Sales Close Agent::https://learn.microsoft.com/en-us/dynamics365/sales/configure-sales-close-agent::Docs"
+            data-overlaps="Sales Opportunity Agent::Both work on active opportunities in the CRM. The Sales Opportunity Agent is a passive insight toolit briefs the seller but doesn't contact customers. This agent acts autonomously, engaging customers directly via email to move the deal toward close.|Sales Development Agent::Both autonomously send emails to contacts. The Sales Development Agent works at the top of funnel with cold prospects; this agent works deeper in the pipeline on contacts already engaged in an active deal.">
+            <div class="card-top">
+              <div class="card-name-row">
+                <div class="card-name">Sales Close Agent</div>
+                <span class="status-pill s-preview">Preview</span>
+              </div>
+              <div class="card-meta">
+                <span class="role-tag"><span class="iconify" data-icon="fluent:person-24-filled"></span>Sales Rep</span>
+              </div>
+            </div>
+            <div class="cap-pills">
+              <span class="cap-pill">Customer engagement</span>
+              <span class="cap-pill">Objection handling</span>
+              <span class="cap-pill">Product recommendations</span>
+              <span class="cap-pill">Autonomous follow-up</span>
+            </div>
+            <div class="card-links">
+              <a class="card-link" href="https://learn.microsoft.com/en-us/dynamics365/sales/sales-close-agent?WT.mc_id=DX-MVP-5003800" target="_blank" rel="noopener" onclick="event.stopPropagation()"><span class="iconify" data-icon="fluent:document-24-filled"></span>Sales Close Agent overview</a>
+              <a class="card-link" href="https://learn.microsoft.com/en-us/dynamics365/sales/how-sales-close-agent-engage-mode-works?WT.mc_id=DX-MVP-5003800" target="_blank" rel="noopener" onclick="event.stopPropagation()"><span class="iconify" data-icon="fluent:document-24-filled"></span>How the agent closes deals</a>
+              <a class="card-link" href="https://www.youtube.com/watch?v=m8MCEZ8OBqk" target="_blank" rel="noopener" onclick="event.stopPropagation()"><span class="iconify" data-icon="fluent:play-circle-24-filled"></span>Sales Close Agent demo (YouTube)</a>
+            </div>
+            <div class="use-when-hint"><span class="iconify" data-icon="fluent:info-24-filled"></span>More details ...</div>
+          </div>
+
+        </div><!-- /d365-top-row -->
+
+        <!-- Bottom row: 2 supporting agents -->
+        <div class="d365-bottom-row">
+
+          <div class="card card-enrich"
+            data-name="AI-powered Data Enrichment"
+            data-status="s-preview" data-status-label="Preview"
+            data-roles="Sales Rep|Sales Leader"
+            data-use-when="Your opportunity records are incomplete or constantly out of date. The agent reads email conversations and automatically suggests, or applies, updates to opportunity fields like budget and close date, keeping pipeline data accurate without manual entry."
+            data-caps="Email scanning|Field suggestions|Auto-update records|Close date tracking|Budget detection|Pipeline accuracy"
+            data-links="AI-powered Data Enrichment documentation::https://learn.microsoft.com/en-us/dynamics365/sales/data-enrichment-agent-overview::Docs|Configure Data Enrichment::https://learn.microsoft.com/en-us/dynamics365/sales/data-enrichment-agent-configure::Docs"
+            data-overlaps="Sales Opportunity Agent::Both read emails related to opportunities. The Sales Opportunity Agent synthesises emails into deal insights for the seller; this agent extracts specific data points from those emails to update CRM fields. They complement each other rather than replace each other.">
+            <div class="card-top">
+              <div class="card-name-row">
+                <div class="card-name">AI-powered Data Enrichment</div>
+                <span class="status-pill s-preview">Preview</span>
+              </div>
+              <div class="card-meta">
+                <span class="role-tag"><span class="iconify" data-icon="fluent:person-24-filled"></span>Sales Rep</span>
+                <span class="role-tag"><span class="iconify" data-icon="fluent:person-24-filled"></span>Sales Leader</span>
+              </div>
+            </div>
+            <div class="cap-pills">
+              <span class="cap-pill">Email scanning</span>
+              <span class="cap-pill">Field suggestions</span>
+              <span class="cap-pill">Auto-update records</span>
+              <span class="cap-pill">Pipeline accuracy</span>
+            </div>
+            <div class="card-links">
+              <a class="card-link" href="https://learn.microsoft.com/en-us/dynamics365/sales/data-enrichment-agent-overview?WT.mc_id=DX-MVP-5003800" target="_blank" rel="noopener" onclick="event.stopPropagation()"><span class="iconify" data-icon="fluent:document-24-filled"></span>AI-powered Data Enrichment overview</a>
+              <a class="card-link" href="https://learn.microsoft.com/en-us/dynamics365/sales/use-data-enrichment-agent?WT.mc_id=DX-MVP-5003800" target="_blank" rel="noopener" onclick="event.stopPropagation()"><span class="iconify" data-icon="fluent:document-24-filled"></span>Review and approve field suggestions</a>
+            </div>
+            <div class="use-when-hint"><span class="iconify" data-icon="fluent:info-24-filled"></span>More details ...</div>
+          </div>
+
+          <div class="card card-research"
+            data-name="Sales Research Agent"
+            data-status="s-preview" data-status-label="Preview"
+            data-roles="Sales Leader"
+            data-use-when="A sales leader needs to answer complex business questions, including pipeline health, revenue attainment and forecast risk, without waiting days for a report. They ask in plain language and get analysis with visualisations backed by live CRM data."
+            data-caps="Natural language queries|Pipeline analysis|Revenue insights|Data visualisation|Forecast risk|Multi-source data"
+            data-links="Sales Research Agent documentation::https://learn.microsoft.com/en-us/dynamics365/sales/sales-research-agent::Docs"
+            data-overlaps="Sales Agent (M365 Copilot)::Both answer sales questions in natural language. This agent is designed for deep analytical work, including multi-variable business questions, pipeline health and revenue trends, with rich visualisations and a research canvas. The Sales Agent is a quick conversational lookup across CRM records, emails, and meetings.">
+            <div class="card-top">
+              <div class="card-name-row">
+                <div class="card-name">Sales Research Agent</div>
+                <span class="status-pill s-preview">Preview</span>
+              </div>
+              <div class="card-meta">
+                <span class="role-tag"><span class="iconify" data-icon="fluent:person-24-filled"></span>Sales Leader</span>
+              </div>
+            </div>
+            <div class="cap-pills">
+              <span class="cap-pill">Natural language queries</span>
+              <span class="cap-pill">Pipeline analysis</span>
+              <span class="cap-pill">Revenue insights</span>
+              <span class="cap-pill">Data visualisation</span>
+            </div>
+            <div class="card-links">
+              <a class="card-link" href="https://learn.microsoft.com/en-us/dynamics365/sales/sales-research-agent?WT.mc_id=DX-MVP-5003800" target="_blank" rel="noopener" onclick="event.stopPropagation()"><span class="iconify" data-icon="fluent:document-24-filled"></span>Sales Research Agent overview</a>
+              <a class="card-link" href="https://learn.microsoft.com/en-us/dynamics365/sales/use-sales-research-agent?WT.mc_id=DX-MVP-5003800" target="_blank" rel="noopener" onclick="event.stopPropagation()"><span class="iconify" data-icon="fluent:document-24-filled"></span>Analyse your pipeline and revenue</a>
+            </div>
+            <div class="use-when-hint"><span class="iconify" data-icon="fluent:info-24-filled"></span>More details ...</div>
+          </div>
+
+        </div><!-- /d365-bottom-row -->
+      </div><!-- /d365-inner -->
+    </div><!-- /zone-d365 -->
+
+    <!-- ═══════════════════════════════════════════
+         ZONE 3Microsoft 365 Copilot
+    ════════════════════════════════════════════ -->
+    <div class="platform-zone zone-m365">
+      <div class="platform-zone-header">
+        <div class="platform-icon-wrap">
+          <img src="../assets/Microsoft_365_Copilot_Badge.svg" alt="Microsoft 365 Copilot" />
+        </div>
+        <div>
+          <div class="ptitle">Microsoft 365 Copilot</div>
+          <div class="psub">Lives in Outlook, Teams &amp; Copilot Chat</div>
+        </div>
+      </div>
+      <div class="side-inner">
+
+        <div class="card"
+          data-name="Sales Agent"
+          data-status="s-preview" data-status-label="Preview"
+          data-roles="All Sales Roles"
+          data-image="https://learn.microsoft.com/en-us/microsoft-sales-copilot/media/sales-chat-starter-prompts.png"
+          data-image-source="https://learn.microsoft.com/en-us/microsoft-sales-copilot/use-sales-chat?WT.mc_id=DX-MVP-5003800"
+          data-use-when="Sellers want to ask questions about their accounts, deals, and customers without opening the CRM. From Outlook, Teams, or Copilot Chat they can ask in plain language and get answers drawn from both CRM records and emails or meetings."
+          data-caps="CRM queries|Account summaries|Deal Q&amp;A|Meeting catch-up|Cross-app search|Natural language"
+          data-links="Sales Agent overview (Microsoft Learn)::https://learn.microsoft.com/en-us/microsoft-sales-copilot/sales-chat-overview::Docs|How Sales Copilot works (Microsoft Mechanics)::https://www.youtube.com/watch?v=CxR4JZ-2oiU::Video"
+          data-overlaps="Sales Research Agent::Both answer sales questions in natural language. This agent is built for quick, conversational lookups across CRM, emails, and meetings wherever you're working (Outlook, Teams, Copilot Chat). The Sales Research Agent is for complex analytical questions that need deep reasoning, visualisations, and a structured research canvas.|Sales Opportunity Agent::Both can surface insights about a specific deal. This agent answers ad-hoc questions you ask; the Sales Opportunity Agent proactively monitors opportunities and pushes risk and priority signals to you without being asked.">
+          <div class="card-top">
+            <div class="card-name-row">
+              <div class="card-name">Sales Agent</div>
+              <span class="status-pill s-preview">Preview</span>
+            </div>
+            <div class="card-meta">
+              <span class="role-tag"><span class="iconify" data-icon="fluent:person-24-filled"></span>All Sales Roles</span>
+            </div>
+          </div>
+          <div class="cap-pills">
+            <span class="cap-pill">CRM queries</span>
+            <span class="cap-pill">Account summaries</span>
+            <span class="cap-pill">Meeting catch-up</span>
+            <span class="cap-pill">Cross-app search</span>
+          </div>
+          <div class="card-links">
+            <a class="card-link" href="https://learn.microsoft.com/en-us/microsoft-sales-copilot/sales-chat-overview?WT.mc_id=DX-MVP-5003800" target="_blank" rel="noopener" onclick="event.stopPropagation()"><span class="iconify" data-icon="fluent:document-24-filled"></span>Sales Agent overview (Microsoft Learn)</a>
+            <a class="card-link" href="https://adoption.microsoft.com/en-gb/copilot-for-sales/" target="_blank" rel="noopener" onclick="event.stopPropagation()"><span class="iconify" data-icon="fluent:document-24-filled"></span>Copilot for Sales adoption hub</a>
+            <a class="card-link" href="https://adoption.microsoft.com/en-gb/copilot-for-sales/success-kit/" target="_blank" rel="noopener" onclick="event.stopPropagation()"><span class="iconify" data-icon="fluent:document-24-filled"></span>Adoption success kit</a>
+          </div>
+          <div class="use-when-hint"><span class="iconify" data-icon="fluent:info-24-filled"></span>More details ...</div>
+        </div>
+
+        <div class="card"
+          data-name="Lead Research &amp; Outreach"
+          data-status="s-preview" data-status-label="Preview"
+          data-roles="Sales Development Rep|Sales Rep"
+          data-image="https://learn.microsoft.com/en-us/microsoft-sales-copilot/media/sales-agent-lead-research-details.png"
+          data-image-source="https://learn.microsoft.com/en-us/microsoft-sales-copilot/use-sales-agent?WT.mc_id=DX-MVP-5003800"
+          data-use-when="Sellers need a comprehensive briefing on each CRM lead before reaching out. The agent automatically researches company details, financials, news, and decision-maker status, then generates a personalised outreach email ready to review and send, surfaced inside the Sales Agent experience."
+          data-caps="Company research|Decision-maker check|News &amp; context|Financial summary|Personalised email|CRM integration"
+          data-links="Lead Research &amp; Outreach overview::https://learn.microsoft.com/en-us/microsoft-sales-copilot/sales-agent-overview::Docs|Set up Lead Research &amp; Outreach::https://learn.microsoft.com/en-us/microsoft-sales-copilot/set-up-sales-agent::Docs"
+          data-overlaps="Sales Qualification Agent::Both research CRM leads and generate outreach emails. This agent is seller-initiatedyou review the briefing and decide whether to send. The Sales Qualification Agent runs autonomously at scale, processing batches of leads and optionally sending emails without seller review.|Sales Development Agent::Both generate personalised outreach emails for leads. This agent works within M365 Copilot and requires a seller to review and send each email. The Sales Development Agent runs a fully autonomous outbound sequence from a prospect list, without seller involvement until handoff.">
+          <div class="card-top">
+            <div class="card-name-row">
+              <div class="card-name">Lead Research &amp; Outreach</div>
+              <span class="status-pill s-preview">Preview</span>
+            </div>
+            <div class="card-meta">
+              <span class="role-tag"><span class="iconify" data-icon="fluent:person-24-filled"></span>Sales Development Rep</span>
+              <span class="role-tag"><span class="iconify" data-icon="fluent:person-24-filled"></span>Sales Rep</span>
+            </div>
+          </div>
+          <div class="cap-pills">
+            <span class="cap-pill">Company research</span>
+            <span class="cap-pill">Decision-maker check</span>
+            <span class="cap-pill">News &amp; context</span>
+            <span class="cap-pill">Personalised email</span>
+          </div>
+          <div class="card-links">
+            <a class="card-link" href="https://learn.microsoft.com/en-us/microsoft-sales-copilot/sales-agent-overview?WT.mc_id=DX-MVP-5003800" target="_blank" rel="noopener" onclick="event.stopPropagation()"><span class="iconify" data-icon="fluent:document-24-filled"></span>Lead Research &amp; Outreach overview</a>
+            <a class="card-link" href="https://learn.microsoft.com/en-us/microsoft-sales-copilot/set-up-sales-agent?WT.mc_id=DX-MVP-5003800" target="_blank" rel="noopener" onclick="event.stopPropagation()"><span class="iconify" data-icon="fluent:document-24-filled"></span>Set up Lead Research &amp; Outreach</a>
+          </div>
+          <div class="use-when-hint"><span class="iconify" data-icon="fluent:info-24-filled"></span>More details ...</div>
+        </div>
+
+      </div>
+    </div><!-- /zone-m365 -->
+
+  </div><!-- /outer-grid -->
+
+  <div class="footer">
+    AppRising, Microsoft AI &amp; Dynamics 365 Consultancy · apprising.co.nz · Updated April 2026 · Source: Microsoft Learn
+  </div>
+
+  <!-- ─── Side panel ─── -->
+  <div class="panel-backdrop" id="backdrop"></div>
+  <div class="side-panel" id="sidePanel" role="dialog" aria-modal="true" aria-labelledby="panelTitle">
+    <div class="panel-header">
+      <div class="panel-header-top">
+        <div class="panel-agent-name" id="panelTitle"></div>
+        <button class="panel-close" id="panelClose" aria-label="Close panel">✕</button>
+      </div>
+      <div class="panel-meta" id="panelMeta"></div>
+    </div>
+    <div class="panel-body">
+      <div id="panelImage"></div>
+      <div class="panel-section-label">When to use this agent</div>
+
+      <div class="panel-use-when-text" id="panelUseWhen"></div>
+      <div class="panel-caps-label">What it does</div>
+      <div class="panel-cap-pills" id="panelCaps"></div>
+      <div class="panel-overlaps" id="panelOverlaps"></div>
+      <div class="panel-links" id="panelLinks"></div>
+    </div>
+  </div>
+
+  <script>
+    const panel      = document.getElementById('sidePanel');
+    const backdrop   = document.getElementById('backdrop');
+    const panelClose = document.getElementById('panelClose');
+    const panelTitle = document.getElementById('panelTitle');
+    const panelMeta  = document.getElementById('panelMeta');
+    const panelUseWhen   = document.getElementById('panelUseWhen');
+    const panelCaps      = document.getElementById('panelCaps');
+    const panelImage     = document.getElementById('panelImage');
+    const panelOverlaps  = document.getElementById('panelOverlaps');
+    const panelLinks     = document.getElementById('panelLinks');
+
+    function openPanel(card) {
+      panelTitle.textContent = card.dataset.name;
+
+      const roles = card.dataset.roles.split('|');
+      panelMeta.innerHTML =
+        `<span class="status-pill ${card.dataset.status}">${card.dataset.statusLabel}</span>` +
+        roles.map(r => `<span class="role-tag"><span class="iconify" data-icon="fluent:person-24-filled"></span>${r}</span>`).join('');
+
+      if (card.dataset.image) {
+        const sourceLink = card.dataset.imageSource
+          ? `<a href="${card.dataset.imageSource}" target="_blank" rel="noopener">Source: Microsoft Learn ↗</a>`
+          : '';
+        panelImage.innerHTML =
+          `<div class="panel-image-wrap">
+            <a class="panel-image-link" href="${card.dataset.image}" target="_blank" rel="noopener" title="View full size">
+              <img class="panel-image" src="${card.dataset.image}" alt="${card.dataset.name} screenshot" />
+            </a>
+            <div class="panel-image-caption">
+              <a href="${card.dataset.image}" target="_blank" rel="noopener">View full size ↗</a>
+              ${sourceLink}
+            </div>
+           </div>`;
+      } else {
+        panelImage.innerHTML = '';
+      }
+
+      panelUseWhen.innerHTML = card.dataset.useWhen;
+
+      const caps = card.dataset.caps.split('|');
+      panelCaps.innerHTML = caps
+        .map(c => `<span class="panel-cap-pill">${c}</span>`)
+        .join('');
+
+      if (card.dataset.overlaps) {
+        const items = card.dataset.overlaps.split('|');
+        panelOverlaps.innerHTML =
+          `<div class="panel-caps-label" style="margin-top:24px;margin-bottom:10px;">How it differs from similar agents</div>` +
+          items.map(item => {
+            const sep = item.indexOf('::');
+            const name = item.slice(0, sep);
+            const text = item.slice(sep + 2);
+            return `<div class="panel-overlap-item">
+              <div class="panel-overlap-name">${name}</div>
+              <div class="panel-overlap-text">${text}</div>
+            </div>`;
+          }).join('');
+      } else {
+        panelOverlaps.innerHTML = '';
+      }
+
+      panelLinks.innerHTML = '';
+
+      panel.classList.add('open');
+      backdrop.classList.add('open');
+      panelClose.focus();
+    }
+
+    function closePanel() {
+      panel.classList.remove('open');
+      backdrop.classList.remove('open');
+    }
+
+    document.querySelectorAll('.card').forEach(card => {
+      card.addEventListener('click', () => openPanel(card));
+      card.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openPanel(card); }
+      });
+      card.setAttribute('tabindex', '0');
+      card.setAttribute('role', 'button');
+    });
+
+    panelClose.addEventListener('click', closePanel);
+    backdrop.addEventListener('click', closePanel);
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closePanel();
+    });
+  </script>
+
+</body>
+</html>
+

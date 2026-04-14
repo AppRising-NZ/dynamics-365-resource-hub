@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dynamics 365 Resource Hub</title>
+  <style>
+    :root {
+      --brand: #2FA6A4;
+      --brand-dark: #1F7F7D;
+      --text: #111827;
+      --muted: rgba(17, 24, 39, 0.72);
+      --bg: #ffffff;
+      --panel: #F6F8FB;
+      --border: #E2E8F0;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Inter, "DM Sans", "Segoe UI", sans-serif;
+      background: radial-gradient(circle at 0% 0%, #eef8f8 0%, #ffffff 48%), var(--bg);
+      color: var(--text);
+    }
+
+    .wrap {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 40px 20px 64px;
+    }
+
+    h1 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      line-height: 1.08;
+      margin: 0;
+      letter-spacing: -0.02em;
+    }
+
+    .lead {
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 1.05rem;
+      line-height: 1.7;
+      max-width: 70ch;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+      margin-top: 28px;
+    }
+
+    .card {
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: var(--panel);
+      padding: 18px;
+    }
+
+    .card h2 {
+      margin: 0;
+      font-size: 1.15rem;
+    }
+
+    .card p {
+      margin: 10px 0 16px;
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 0.95rem;
+    }
+
+    .btn {
+      display: inline-block;
+      text-decoration: none;
+      background: var(--brand);
+      color: #fff;
+      border-radius: 999px;
+      padding: 10px 16px;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    .btn:hover { background: var(--brand-dark); }
+
+    .pill {
+      display: inline-block;
+      margin-top: 10px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #0f766e;
+      background: #ccfbf1;
+      border-radius: 999px;
+      padding: 4px 10px;
+    }
+
+    footer {
+      margin-top: 30px;
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <h1>Dynamics 365 Resource Hub</h1>
+    <p class="lead">Public reference pages maintained by AppRising. This site contains selected Dynamics 365 resources designed for external sharing.</p>
+
+    <section class="grid" aria-label="Published resources">
+      <article class="card">
+        <h2>Sales Agents Overview</h2>
+        <p>Interactive map of Microsoft Sales AI agents across Microsoft Agent 365, Dynamics 365 Sales, and Microsoft 365 Copilot.</p>
+        <a class="btn" href="sales-agents/">Open page</a>
+        <div class="pill">Published</div>
+      </article>
+
+      <article class="card">
+        <h2>Service Agents Overview</h2>
+        <p>Reserved route for an upcoming Dynamics 365 service-focused agent landscape page.</p>
+        <a class="btn" href="service-agents/">Open placeholder</a>
+        <div class="pill">Coming soon</div>
+      </article>
+    </section>
+
+    <footer>AppRising · Microsoft AI and Dynamics 365 consultancy</footer>
+  </main>
+</body>
+</html>
