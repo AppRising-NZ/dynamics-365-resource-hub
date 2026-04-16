@@ -407,7 +407,7 @@
     .side-panel {
       position: fixed;
       top: 0; right: 0; bottom: 0;
-      width: 460px;
+      width: 560px;
       max-width: 90vw;
       background: #ffffff;
       border-left: 1px solid #D1D5DB;
@@ -473,6 +473,22 @@
       margin-bottom: 20px;
     }
     .panel-aka strong { color: #374151; }
+    .panel-licence {
+      font-size: 12px;
+      color: #374151;
+      background: #F3F4F6;
+      border: 1px solid #E5E7EB;
+      border-radius: 6px;
+      padding: 8px 12px;
+      margin-top: 16px;
+      margin-bottom: 20px;
+    }
+    .panel-licence-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: #6B7280;
+      margin-bottom: 8px;
+    }
     .panel-use-when-text {
       font-size: 14px;
       line-height: 1.7;
@@ -613,7 +629,7 @@
     <div class="platform-zone zone-agent365">
       <div class="platform-zone-header">
         <div class="platform-icon-wrap">
-          <img src="../assets/Agent365_scalable.svg" alt="Microsoft Agent 365" />
+          <img src="Agent365_scalable.svg" alt="Microsoft Agent 365" />
         </div>
         <div>
           <div class="ptitle">Microsoft Agent 365</div>
@@ -626,6 +642,7 @@
           data-name="Sales Development Agent"
           data-status="s-frontier" data-status-label="Frontier Program"
           data-roles="Sales Development Rep|Sales Leader"
+          data-licence="Agent 365 licence ($15 per user per month, GA from 1 May 2026). A Dynamics 365 Sales licence is also required if integrating with Dynamics 365 as the CRM."
           data-image="https://learn.microsoft.com/en-us/copilot/release-plan/2025wave2/copilot-sales/media/sales-agent-screenshot-small.png"
           data-image-source="https://learn.microsoft.com/en-us/copilot/release-plan/2025wave2/copilot-sales/autonomously-grow-qualified-pipeline-sales-agent?WT.mc_id=DX-MVP-5003800"
           data-use-when="You want to scale outbound prospecting without scaling headcount. The agent autonomously contacts a prospect list, follows up, handles replies, qualifies interest against your rules, and hands warm leads to a seller, all via email, managed from Teams."
@@ -666,7 +683,7 @@
     <div class="platform-zone zone-d365">
       <div class="platform-zone-header">
         <div class="platform-icon-wrap">
-          <img src="../assets/Sales_scalable.svg" alt="Dynamics 365 Sales" />
+          <img src="Sales_scalable.svg" alt="Dynamics 365 Sales" />
         </div>
         <div>
           <div class="ptitle">Dynamics 365 Sales</div>
@@ -682,6 +699,7 @@
             data-name="Sales Qualification Agent"
             data-status="s-ga" data-status-label="Generally Available"
             data-roles="Sales Development Rep|Sales Rep"
+            data-licence="Dynamics 365 Sales licence plus consumption-based capacity credits."
             data-image="https://learn.microsoft.com/en-us/dynamics365/sales/media/supervisor-dashboard-engage-mode.png"
             data-image-source="https://learn.microsoft.com/en-us/dynamics365/sales/monitor-leads-by-sales-qualification-agent?WT.mc_id=DX-MVP-5003800"
             data-use-when="You have more inbound leads than sellers can handle. The agent researches each lead, scores them against your ideal customer profile, and either drafts outreach emails for seller review (Research-only mode) or sends and follows up autonomously until a lead qualifies or is disqualified (Research &amp; Engage mode)."
@@ -715,8 +733,9 @@
           <div class="card card-oppty"
             data-name="Sales Opportunity Agent"
             data-status="s-ga" data-status-label="Generally Available"
-            data-aka="Sales Close Agent - Research"
+            data-aka="Sales Close Agent - Research, Opportunity Research Agent"
             data-roles="Sales Rep|Sales Leader"
+            data-licence="Dynamics 365 Sales licence plus consumption-based capacity credits."
             data-image="https://learn.microsoft.com/en-us/dynamics365/sales/media/sca-research-action-cards-carousel.png"
             data-image-source="https://learn.microsoft.com/en-us/dynamics365/sales/next-best-actions-to-manage-opportunities?WT.mc_id=DX-MVP-5003800"
             data-use-when="You need sellers to walk into every deal review fully prepared. The agent synthesises CRM data, emails, and meeting notes into a single deal view, flagging risks, disengaged stakeholders, and competitor mentions so sellers know exactly where to focus."
@@ -753,6 +772,7 @@
             data-image="https://learn.microsoft.com/en-us/dynamics365/sales/media/sca-engage-insights-dashboard.png"
             data-image-source="https://learn.microsoft.com/en-us/dynamics365/sales/view-sales-close-agent-engage-insights-metrics?WT.mc_id=DX-MVP-5003800"
             data-roles="Sales Rep"
+            data-licence="Dynamics 365 Sales licence plus consumption-based capacity credits."
             data-use-when="You want AI to actively move deals forward, not just surface insights. The agent autonomously engages customers, recommends products, handles objections, and drives follow-ups throughout the cycle, handing back to the seller at key decision points."
             data-caps="Customer engagement|Product recommendations|Objection handling|Autonomous follow-up|Deal progression|Seller handoff"
             data-links="Sales Close Agent documentation::https://learn.microsoft.com/en-us/dynamics365/sales/sales-close-agent::Docs|Configure Sales Close Agent::https://learn.microsoft.com/en-us/dynamics365/sales/configure-sales-close-agent::Docs"
@@ -789,6 +809,7 @@
             data-name="AI-powered Data Enrichment"
             data-status="s-preview" data-status-label="Preview"
             data-roles="Sales Rep|Sales Leader"
+            data-licence="Dynamics 365 Sales licence plus consumption-based capacity credits."
             data-use-when="Your opportunity records are incomplete or constantly out of date. The agent reads email conversations and automatically suggests, or applies, updates to opportunity fields like budget and close date, keeping pipeline data accurate without manual entry."
             data-caps="Email scanning|Field suggestions|Auto-update records|Close date tracking|Budget detection|Pipeline accuracy"
             data-links="AI-powered Data Enrichment documentation::https://learn.microsoft.com/en-us/dynamics365/sales/data-enrichment-agent-overview::Docs|Configure Data Enrichment::https://learn.microsoft.com/en-us/dynamics365/sales/data-enrichment-agent-configure::Docs"
@@ -821,6 +842,7 @@
             data-status="s-preview" data-status-label="Preview"
             data-aka="Project Sophia"
             data-roles="Sales Leader"
+            data-licence="Dynamics 365 Sales licence plus consumption-based capacity credits."
             data-use-when="A sales leader needs to answer complex business questions, including pipeline health, revenue attainment and forecast risk, without waiting days for a report. They ask in plain language and get analysis with visualisations backed by live CRM data."
             data-caps="Natural language queries|Pipeline analysis|Revenue insights|Data visualisation|Forecast risk|Multi-source data"
             data-image="https://learn.microsoft.com/en-us/dynamics365/sales/media/sales-research-agent-insights.png"
@@ -859,7 +881,7 @@
     <div class="platform-zone zone-m365">
       <div class="platform-zone-header">
         <div class="platform-icon-wrap">
-          <img src="../assets/Microsoft_365_Copilot_Badge.svg" alt="Microsoft 365 Copilot" />
+          <img src="Microsoft_365_Copilot_Badge.svg" alt="Microsoft 365 Copilot" />
         </div>
         <div>
           <div class="ptitle">Microsoft 365 Copilot</div>
@@ -873,6 +895,7 @@
           data-status="s-preview" data-status-label="Preview"
           data-aka="Sales Chat, Viva Sales"
           data-roles="All Sales Roles"
+          data-licence="Microsoft 365 Copilot licence."
           data-image="https://learn.microsoft.com/en-us/microsoft-sales-copilot/media/sales-chat-starter-prompts.png"
           data-image-source="https://learn.microsoft.com/en-us/microsoft-sales-copilot/use-sales-chat?WT.mc_id=DX-MVP-5003800"
           data-use-when="Sellers want to ask questions about their accounts, deals, and customers without opening the CRM. From Outlook, Teams, or Copilot Chat they can ask in plain language and get answers drawn from both CRM records and emails or meetings."
@@ -906,6 +929,7 @@
           data-name="Lead Research &amp; Outreach"
           data-status="s-preview" data-status-label="Preview"
           data-roles="Sales Development Rep|Sales Rep"
+          data-licence="Microsoft 365 Copilot licence."
           data-image="https://learn.microsoft.com/en-us/microsoft-sales-copilot/media/sales-agent-lead-research-details.png"
           data-image-source="https://learn.microsoft.com/en-us/microsoft-sales-copilot/use-sales-agent?WT.mc_id=DX-MVP-5003800"
           data-use-when="Sellers need a comprehensive briefing on each CRM lead before reaching out. The agent automatically researches company details, financials, news, and decision-maker status, then generates a personalised outreach email ready to review and send, surfaced inside the Sales Agent experience."
@@ -947,7 +971,7 @@
     </a>
   </div>
   <div class="footer">
-    Microsoft AI &amp; Dynamics 365 Consultancy · <a href="https://www.apprising.co.nz" target="_blank" rel="noopener" style="color:inherit;">apprising.co.nz</a> · Updated April 2026 · Source: Microsoft Learn · <a href="https://www.linkedin.com/in/hamishsheild/" target="_blank" rel="noopener" style="color:inherit;">Connect on LinkedIn</a>
+    Microsoft AI &amp; Dynamics 365 Consultancy · <a href="https://www.apprising.co.nz" target="_blank" rel="noopener" style="color:inherit;">apprising.co.nz</a> · Updated April 2026 · <a href="https://www.linkedin.com/in/hamishsheild/" target="_blank" rel="noopener" style="color:inherit;">Connect on LinkedIn</a>
   </div>
 
   <!-- ─── Lightbox ─── -->
@@ -974,6 +998,7 @@
       <div class="panel-use-when-text" id="panelUseWhen"></div>
       <div class="panel-caps-label">What it does</div>
       <div class="panel-cap-pills" id="panelCaps"></div>
+      <div id="panelLicence"></div>
       <div class="panel-overlaps" id="panelOverlaps"></div>
       <div class="panel-links" id="panelLinks"></div>
     </div>
@@ -990,6 +1015,7 @@
     const panelImage     = document.getElementById('panelImage');
     const panelAka       = document.getElementById('panelAka');
     const panelOverlaps  = document.getElementById('panelOverlaps');
+    const panelLicence   = document.getElementById('panelLicence');
     const panelLinks     = document.getElementById('panelLinks');
 
     function openPanel(card) {
@@ -1028,6 +1054,10 @@
       panelCaps.innerHTML = caps
         .map(c => `<span class="panel-cap-pill">${c}</span>`)
         .join('');
+
+      panelLicence.innerHTML = card.dataset.licence
+        ? `<div class="panel-licence"><div class="panel-licence-label">Licence required</div>${card.dataset.licence}</div>`
+        : '';
 
       if (card.dataset.overlaps) {
         const items = card.dataset.overlaps.split('|');
@@ -1110,4 +1140,3 @@
 
 </body>
 </html>
-
