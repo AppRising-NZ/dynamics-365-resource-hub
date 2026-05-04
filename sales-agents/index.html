@@ -5,6 +5,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Microsoft Sales AI Agents - AppRising</title>
   <link rel="icon" type="image/png" href="https://static.wixstatic.com/media/3f6a54_2ee00fa9d9ca4a73a82f7b00067a5da2~mv2.png" />
+  <!-- Google Analytics GA4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-Z2WEBVW92H"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-Z2WEBVW92H');
+  </script>
+
+  <!-- Microsoft Clarity -->
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+      c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+      t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+      y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "wm2a4jzea6");
+  </script>
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
@@ -360,6 +378,104 @@
     }
     .lightbox-close:hover { opacity: 1; }
 
+    /* ─── Filter bar ─── */
+    .filter-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+    .filter-bar-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #6B7280;
+      white-space: nowrap;
+    }
+    .filter-dropdown { position: relative; }
+    .filter-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      color: #374151;
+      background: #ffffff;
+      border: 1px solid #D1D5DB;
+      border-radius: 20px;
+      padding: 5px 12px 5px 10px;
+      cursor: pointer;
+      transition: border-color 0.12s, background 0.12s, color 0.12s;
+      white-space: nowrap;
+    }
+    .filter-btn:hover { border-color: #9CA3AF; background: #F9FAFB; }
+    .filter-btn.active { background: #2FA6A4; border-color: #2FA6A4; color: #ffffff; }
+    .filter-btn.active .iconify { color: rgba(255,255,255,0.85); }
+    .filter-btn .chevron { font-size: 10px; opacity: 0.6; transition: transform 0.15s; }
+    .filter-btn.open .chevron { transform: rotate(180deg); }
+
+    .filter-menu {
+      display: none;
+      position: absolute;
+      top: calc(100% + 6px);
+      left: 0;
+      min-width: 190px;
+      background: #ffffff;
+      border: 1px solid #E5E7EB;
+      border-radius: 10px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.10);
+      z-index: 200;
+      padding: 5px;
+      overflow: hidden;
+    }
+    .filter-menu.open { display: block; }
+    .filter-option {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      width: 100%;
+      text-align: left;
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      color: #374151;
+      background: none;
+      border: none;
+      border-radius: 6px;
+      padding: 7px 10px;
+      cursor: pointer;
+      transition: background 0.1s;
+    }
+    .filter-option:hover { background: #F3F4F6; }
+    .filter-option.active { background: #ECFDF5; color: #065F46; font-weight: 600; }
+    .filter-option .check { font-size: 12px; opacity: 0; flex-shrink: 0; }
+    .filter-option.active .check { opacity: 1; }
+
+    .filter-clear {
+      display: none;
+      align-items: center;
+      gap: 4px;
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      color: #9CA3AF;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px 8px;
+      border-radius: 20px;
+    }
+    .filter-clear.visible { display: inline-flex; }
+    .filter-clear:hover { background: #F3F4F6; color: #374151; }
+
+    /* ─── Filtered-out card state ─── */
+    .card { transition: box-shadow 0.15s, border-color 0.15s, opacity 0.2s; }
+    .card.filtered-out {
+      opacity: 0.15;
+      pointer-events: none;
+    }
+
     /* ─── Footer ─── */
     .footer-brand {
       text-align: center;
@@ -620,6 +736,38 @@
     </div>
   </div>
 
+  <!-- Filter bar -->
+  <div class="filter-bar">
+    <span class="filter-bar-label">Filter by</span>
+
+    <div class="filter-dropdown" id="roleDropdown">
+      <button class="filter-btn" id="roleBtn">
+        <span class="iconify" data-icon="fluent:person-24-filled"></span>
+        <span id="roleBtnText">Role</span>
+        <span class="iconify chevron" data-icon="fluent:chevron-down-12-filled"></span>
+      </button>
+      <div class="filter-menu" id="roleMenu">
+        <button class="filter-option" data-type="role" data-value="Sales Development Rep"><span class="iconify check" data-icon="fluent:checkmark-12-filled"></span>Sales Development Rep</button>
+        <button class="filter-option" data-type="role" data-value="Sales Rep"><span class="iconify check" data-icon="fluent:checkmark-12-filled"></span>Sales Rep</button>
+        <button class="filter-option" data-type="role" data-value="Sales Leader"><span class="iconify check" data-icon="fluent:checkmark-12-filled"></span>Sales Leader</button>
+      </div>
+    </div>
+
+    <div class="filter-dropdown" id="capDropdown">
+      <button class="filter-btn" id="capBtn">
+        <span class="iconify" data-icon="fluent:task-list-square-24-filled"></span>
+        <span id="capBtnText">Capability</span>
+        <span class="iconify chevron" data-icon="fluent:chevron-down-12-filled"></span>
+      </button>
+      <div class="filter-menu" id="capMenu"></div>
+    </div>
+
+    <button class="filter-clear" id="filterClear">
+      <span class="iconify" data-icon="fluent:dismiss-12-filled"></span>
+      Clear filters
+    </button>
+  </div>
+
   <!-- Outer 3-zone grid -->
   <div class="outer-grid">
 
@@ -646,7 +794,7 @@
           data-image="https://learn.microsoft.com/en-us/copilot/release-plan/2025wave2/copilot-sales/media/sales-agent-screenshot-small.png"
           data-image-source="https://learn.microsoft.com/en-us/copilot/release-plan/2025wave2/copilot-sales/autonomously-grow-qualified-pipeline-sales-agent?WT.mc_id=DX-MVP-5003800"
           data-use-when="You want to scale outbound prospecting without scaling headcount. The agent autonomously contacts a prospect list, follows up, handles replies, qualifies interest against your rules, and hands warm leads to a seller, all via email, managed from Teams."
-          data-caps="Outbound emails|Prospect sequencing|Reply handling|Lead qualification|Seller handoff|CRM sync"
+          data-caps="Outbound emails|Prospect sequencing|Reply handling|Lead qualification|Lead research|Seller handoff|CRM sync"
           data-overlaps="Sales Qualification Agent::Both qualify leads and send outreach emails but this agent works from an outbound prospect list you provide (CSV), while the Sales Qualification Agent handles inbound CRM leads. This agent runs the entire email sequence autonomously; the Sales Qualification Agent can also operate in a seller-review mode.|Lead Research &amp; Outreach::Both research leads and generate personalised outreach emails. The difference is autonomy, this agent independently runs the full outbound sequence without seller input, while Lead Research &amp; Outreach is a briefing tool that surfaces insights and drafts for the seller to review and send.|Configuration model::A key practical difference from the Dynamics 365 sales agents (Sales Qualification Agent, Lead Research &amp; Outreach): without Dynamics 365 CRM integration, a sales manager can onboard the agent immediately, providing instructions, playbook, and product knowledge through natural language chat in Teams. If Dynamics 365 CRM integration is needed, an admin must first set up the connection, after which the sales manager takes over and completes onboarding in Teams. The Dynamics 365 agents always require a system administrator to configure them through Azure and Dynamics 365 settings."
           data-links="Sales Development Agent documentation::https://learn.microsoft.com/en-us/microsoft-agent-365/use#use-the-sales-development-agent::Docs">
           <div class="card-top">
@@ -1135,6 +1283,103 @@
 
     document.addEventListener('keydown', e => {
       if (e.key === 'Escape' && lightbox.classList.contains('open')) closeLightbox();
+    });
+
+    // ─── Filters ───
+    const capGroups = [
+      { label: 'Lead research',      caps: ['Lead research', 'Profile scoring', 'Company research', 'Decision-maker check', 'News & context', 'Financial summary'] },
+      { label: 'Email outreach',     caps: ['Outbound emails', 'Outreach drafting', 'Auto-engagement', 'Reply handling', 'Personalised email', 'Prospect sequencing'] },
+      { label: 'Lead qualification', caps: ['Lead qualification', 'BANT evaluation', 'CRM sync', 'CRM integration'] },
+      { label: 'Deal insights',      caps: ['Deal briefing', 'Risk detection', 'Stakeholder mapping', 'Competitor intel', 'Meeting synthesis', 'Priority signals', 'Deal Q&A', 'Meeting catch-up'] },
+      { label: 'Auto-update CRM data', caps: ['CRM queries', 'Account summaries', 'Cross-app search', 'Natural language', 'Email scanning', 'Field suggestions', 'Auto-update records', 'Close date tracking', 'Budget detection', 'Pipeline accuracy'] },
+      { label: 'Sales analytics',    caps: ['Natural language queries', 'Pipeline analysis', 'Revenue insights', 'Data visualisation', 'Forecast risk', 'Multi-source data'] }
+    ];
+
+    const capMenu = document.getElementById('capMenu');
+    capGroups.forEach(group => {
+      const btn = document.createElement('button');
+      btn.className = 'filter-option';
+      btn.dataset.type  = 'cap';
+      btn.dataset.value = group.label;
+      btn.innerHTML = `<span class="iconify check" data-icon="fluent:checkmark-12-filled"></span>${group.label}`;
+      capMenu.appendChild(btn);
+    });
+
+    const roleBtn    = document.getElementById('roleBtn');
+    const roleBtnText = document.getElementById('roleBtnText');
+    const roleMenu   = document.getElementById('roleMenu');
+    const capBtn     = document.getElementById('capBtn');
+    const capBtnText = document.getElementById('capBtnText');
+    const filterClear = document.getElementById('filterClear');
+
+    let activeRole = '';
+    let activeCap  = '';
+
+    function applyFilters() {
+      const activeGroup = capGroups.find(g => g.label === activeCap);
+      document.querySelectorAll('.card').forEach(card => {
+        const roles = card.dataset.roles ? card.dataset.roles.split('|').map(r => r.trim()) : [];
+        const caps  = card.dataset.caps  ? card.dataset.caps.split('|').map(c => c.trim())  : [];
+        const roleMatch = !activeRole || roles.includes('All Sales Roles') || roles.includes(activeRole);
+        const capMatch  = !activeGroup  || activeGroup.caps.some(c => caps.includes(c));
+        card.classList.toggle('filtered-out', !(roleMatch && capMatch));
+      });
+      filterClear.classList.toggle('visible', !!(activeRole || activeCap));
+    }
+
+    function closeAllMenus() {
+      roleMenu.classList.remove('open');
+      capMenu.classList.remove('open');
+      roleBtn.classList.remove('open');
+      capBtn.classList.remove('open');
+    }
+
+    roleBtn.addEventListener('click', e => {
+      e.stopPropagation();
+      const isOpen = roleMenu.classList.contains('open');
+      closeAllMenus();
+      if (!isOpen) { roleMenu.classList.add('open'); roleBtn.classList.add('open'); }
+    });
+
+    capBtn.addEventListener('click', e => {
+      e.stopPropagation();
+      const isOpen = capMenu.classList.contains('open');
+      closeAllMenus();
+      if (!isOpen) { capMenu.classList.add('open'); capBtn.classList.add('open'); }
+    });
+
+    document.addEventListener('click', closeAllMenus);
+
+    roleMenu.addEventListener('click', e => {
+      const opt = e.target.closest('.filter-option[data-type="role"]');
+      if (!opt) return;
+      activeRole = activeRole === opt.dataset.value ? '' : opt.dataset.value;
+      roleMenu.querySelectorAll('.filter-option').forEach(o => o.classList.toggle('active', o.dataset.value === activeRole));
+      roleBtn.classList.toggle('active', !!activeRole);
+      roleBtnText.textContent = activeRole || 'Role';
+      closeAllMenus();
+      applyFilters();
+    });
+
+    capMenu.addEventListener('click', e => {
+      const opt = e.target.closest('.filter-option[data-type="cap"]');
+      if (!opt) return;
+      activeCap = activeCap === opt.dataset.value ? '' : opt.dataset.value;
+      capMenu.querySelectorAll('.filter-option').forEach(o => o.classList.toggle('active', o.dataset.value === activeCap));
+      capBtn.classList.toggle('active', !!activeCap);
+      capBtnText.textContent = activeCap || 'Capability';
+      closeAllMenus();
+      applyFilters();
+    });
+
+    filterClear.addEventListener('click', () => {
+      activeRole = ''; activeCap = '';
+      roleBtn.classList.remove('active'); capBtn.classList.remove('active');
+      roleBtnText.textContent = 'Role'; capBtnText.textContent = 'Capability';
+      roleMenu.querySelectorAll('.filter-option').forEach(o => o.classList.remove('active'));
+      capMenu.querySelectorAll('.filter-option').forEach(o => o.classList.remove('active'));
+      document.querySelectorAll('.card').forEach(c => c.classList.remove('filtered-out'));
+      filterClear.classList.remove('visible');
     });
   </script>
 
